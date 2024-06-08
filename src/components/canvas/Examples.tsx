@@ -1,6 +1,6 @@
 'use client'
 
-import { useGLTF } from '@react-three/drei'
+import { MeshTransmissionMaterial, MeshWobbleMaterial, PointMaterial, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useMemo, useRef, useState } from 'react'
@@ -12,14 +12,38 @@ export const Blob = ({ route = '/', ...props }) => {
   const [hovered, hover] = useState(false)
   useCursor(hovered)
   return (
-    <mesh
-      onClick={() => router.push(route)}
-      onPointerOver={() => hover(true)}
-      onPointerOut={() => hover(false)}
-      {...props}>
-      <sphereGeometry args={[1, 64, 64]} />
-      <MeshDistortMaterial roughness={0.5} color={hovered ? 'hotpink' : '#1fb2f5'} />
-    </mesh>
+    <>
+      <mesh
+        onClick={() => router.push(route)}
+        onPointerOver={() => hover(true)}
+        onPointerOut={() => hover(false)}
+        {...props}
+      >
+        <sphereGeometry args={[1, 64, 64]} />
+        <MeshDistortMaterial roughness={0.5} color={hovered ? 'hotpink' : '#1fb2f5'} />
+      </mesh>
+      <mesh
+        onClick={() => router.push(route)}
+        onPointerOver={() => hover(true)}
+        onPointerOut={() => hover(false)}
+        position={[2, 0, -1]}
+        {...props}
+      >
+        <boxGeometry args={[1, 1, 2]} />
+        <MeshWobbleMaterial roughness={0.5} color={hovered ? 'hotpink' : '#1fb2f5'} />
+      </mesh>
+      <mesh
+        onClick={() => router.push(route)}
+        onPointerOver={() => hover(true)}
+        onPointerOut={() => hover(false)}
+        position={[1, -2, -1]}
+        {...props}
+      >
+        <points>
+          <PointMaterial transparent vertexColors size={15} sizeAttenuation={false} depthWrite={false} />
+        </points>
+      </mesh>
+    </>
   )
 }
 

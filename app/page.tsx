@@ -1,12 +1,12 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { ComponentType, Suspense } from 'react'
 
 const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
 const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
 const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
-const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
+const View: ComponentType<any> = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
   loading: () => (
     <div className='flex h-96 w-full flex-col items-center justify-center'>
@@ -35,10 +35,10 @@ export default function Page() {
         </div>
 
         <div className='w-full text-center md:w-3/5'>
-          <View className='flex h-96 w-full flex-col items-center justify-center'>
+          <View orbit className='flex h-96 w-full flex-col items-center justify-center'>
             <Suspense fallback={null}>
               <Logo route='/blob' scale={0.6} position={[0, 0, 0]} />
-              <Common />
+              <Common color={'none'} />
             </Suspense>
           </View>
         </div>
@@ -50,7 +50,7 @@ export default function Page() {
           <h2 className='mb-3 text-3xl font-bold leading-none text-gray-800'>Events are propagated</h2>
           <p className='mb-8 text-gray-600'>Drag, scroll, pinch, and rotate the canvas to explore the 3D scene.</p>
         </div>
-        <div className='relative my-12 h-48 w-full py-6 sm:w-1/2 md:mb-40'>
+        <div className='relative animate-bounce my-12 h-48 w-full py-6 sm:w-1/2 md:mb-40'>
           <View orbit className='relative h-full  sm:h-48 sm:w-full'>
             <Suspense fallback={null}>
               <Dog scale={2} position={[0, -1.6, 0]} rotation={[0.0, -0.3, 0]} />
